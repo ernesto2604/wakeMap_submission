@@ -92,7 +92,7 @@ class _TravellerMapScreenState extends State<TravellerMapScreen> {
         _fetchAlarmRoute();
       });
     } else if (activeCount == 0 && _previousActiveAlarmCount > 0) {
-      debugPrint('$_tag All alarms deactivated, recentering on device');
+      debugPrint('$_tag All alarms deactivated, recentring on device');
       setState(() {
         _isAutoFollowEnabled = false;
         _alarmRoute = null;
@@ -100,7 +100,7 @@ class _TravellerMapScreenState extends State<TravellerMapScreen> {
       final target = _latestDeviceLocation ?? _initialMapTarget;
       if (target != null) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          _recenterCamera(target);
+          _recentreCamera(target);
         });
       }
     }
@@ -324,11 +324,11 @@ class _TravellerMapScreenState extends State<TravellerMapScreen> {
 
   void _onMapReady() {
     _isMapControllerReady = true;
-    debugPrint('$_mapTag Building map with initial device-centered camera');
+    debugPrint('$_mapTag Building map with initial device-centred camera');
 
     final current = _latestDeviceLocation;
     if (current != null && _isAutoFollowEnabled) {
-      _recenterCamera(current);
+      _recentreCamera(current);
     }
   }
 
@@ -365,11 +365,11 @@ class _TravellerMapScreenState extends State<TravellerMapScreen> {
     }
 
     if (_isAutoFollowEnabled) {
-      _recenterCamera(nextLocation);
+      _recentreCamera(nextLocation);
     }
   }
 
-  Future<void> _recenterCamera(LatLng target) async {
+  Future<void> _recentreCamera(LatLng target) async {
     _lastFollowedTarget = target;
 
     if (!_isMapControllerReady) {
@@ -379,9 +379,9 @@ class _TravellerMapScreenState extends State<TravellerMapScreen> {
     _isProgrammaticCameraMove = true;
     try {
       _mapController.move(target, 14);
-      debugPrint('$_mapTag Auto-follow recentered camera');
+      debugPrint('$_mapTag Auto-follow recentred camera');
     } catch (e) {
-      debugPrint('$_tag Failed to recenter camera: $e');
+      debugPrint('$_tag Failed to recentre camera: $e');
     } finally {
       _isProgrammaticCameraMove = false;
     }
@@ -396,15 +396,15 @@ class _TravellerMapScreenState extends State<TravellerMapScreen> {
     debugPrint('$_mapTag User manually moved map, auto-follow disabled');
   }
 
-  void _onRecenterPressed() {
-    debugPrint('$_mapTag Recenter requested manually');
+  void _onRecentrePressed() {
+    debugPrint('$_mapTag Recentre requested manually');
     setState(() {
       _isAutoFollowEnabled = true;
     });
 
     final target = _latestDeviceLocation ?? _initialMapTarget;
     if (target != null) {
-      _recenterCamera(target);
+      _recentreCamera(target);
     }
   }
 
@@ -728,9 +728,9 @@ class _TravellerMapScreenState extends State<TravellerMapScreen> {
                   right: 16,
                   child: MapWrapper.circularControl(
                     context: context,
-                    onPressed: _onRecenterPressed,
+                    onPressed: _onRecentrePressed,
                     icon: CupertinoIcons.location_fill,
-                    tooltip: 'Recenter',
+                    tooltip: 'Recentre',
                     size: 44,
                   ),
                 ),

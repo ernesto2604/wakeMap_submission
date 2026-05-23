@@ -74,7 +74,7 @@ class _TravellerGuideScreenState extends State<TravellerGuideScreen> {
 
     final min = 5 + (plan.stops.length * 4);
     final max = min + 10;
-    return '£$min-£$max';
+    return '\u00A3$min-\u00A3$max';
   }
 
   Widget _buildHeader(
@@ -102,7 +102,7 @@ class _TravellerGuideScreenState extends State<TravellerGuideScreen> {
                 const SizedBox(height: 4),
                 Text(
                   hasPlan
-                      ? 'Personalized for your arrival'
+                      ? 'Personalised for your arrival'
                       : 'Chat first, create the plan when ready',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurface.withValues(alpha: 0.58),

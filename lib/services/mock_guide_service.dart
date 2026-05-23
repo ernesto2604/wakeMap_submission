@@ -35,9 +35,9 @@ class MockGuideService {
     return MockPlanModel(
       title: 'Your Quick City Guide',
       summary:
-          'A simple 2–3 hour walking plan covering sights, food, and relaxation near your arrival point.',
+          'A simple 2-3 hour walking plan covering sights, food, and relaxation near your arrival point.',
       estimatedDuration: '~2h',
-      estimatedBudget: '£15-£25',
+      estimatedBudget: '\u00A315-\u00A325',
       stops: stops,
     );
   }
@@ -66,7 +66,7 @@ class MockGuideService {
         summary:
             'A budget-friendly plan focusing on free attractions and affordable eats.',
         estimatedDuration: currentPlan.estimatedDuration ?? '~2h',
-        estimatedBudget: '£8-£15',
+        estimatedBudget: '\u00A38-\u00A315',
         stops: [
           MockPlanStop(
             name: 'Free Walking Tour',
@@ -77,8 +77,7 @@ class MockGuideService {
           ),
           MockPlanStop(
             name: 'Public Park & Gardens',
-            description:
-                'Enjoy the beautiful public gardens — completely free.',
+            description: 'Enjoy the beautiful public gardens, completely free.',
             latitude: arrivalLat + 0.002,
             longitude: arrivalLng - 0.001,
           ),
@@ -116,12 +115,12 @@ class MockGuideService {
         title: currentPlan.title,
         summary: '${currentPlan.summary} Added a food stop!',
         estimatedDuration: currentPlan.estimatedDuration ?? '~3h',
-        estimatedBudget: currentPlan.estimatedBudget ?? '£20-£35',
+        estimatedBudget: currentPlan.estimatedBudget ?? '\u00A320-\u00A335',
         stops: newStops,
       );
       return (
         response:
-            "Great idea! I've added a top-rated local restaurant to your plan. 🍽️",
+            "Great idea! I've added a top-rated local restaurant to your plan.",
         updatedPlan: updatedPlan,
       );
     }
@@ -133,14 +132,14 @@ class MockGuideService {
       final shorterStops = currentPlan.stops.take(2).toList();
       final updatedPlan = MockPlanModel(
         title: currentPlan.title,
-        summary: 'A shorter plan with just the top highlights — about 1 hour.',
+        summary: 'A shorter plan with just the top highlights, about 1 hour.',
         estimatedDuration: '~1h',
-        estimatedBudget: currentPlan.estimatedBudget ?? '£12-£20',
+        estimatedBudget: currentPlan.estimatedBudget ?? '\u00A312-\u00A320',
         stops: shorterStops,
       );
       return (
         response:
-            "Done! I've trimmed the plan down to the top 2 stops for a quicker visit. ⚡",
+            "Done! I've trimmed the plan down to the top 2 stops for a quicker visit.",
         updatedPlan: updatedPlan,
       );
     }
@@ -163,12 +162,12 @@ class MockGuideService {
         title: currentPlan.title,
         summary: '${currentPlan.summary} Added a cultural stop!',
         estimatedDuration: currentPlan.estimatedDuration ?? '~3h',
-        estimatedBudget: currentPlan.estimatedBudget ?? '£18-£30',
+        estimatedBudget: currentPlan.estimatedBudget ?? '\u00A318-\u00A330',
         stops: newStops,
       );
       return (
         response:
-            "I've added a museum visit to your plan. Perfect for culture lovers! 🏛️",
+            "I've added a museum visit to your plan. Perfect for culture lovers.",
         updatedPlan: updatedPlan,
       );
     }
@@ -191,12 +190,12 @@ class MockGuideService {
         title: currentPlan.title,
         summary: '${currentPlan.summary} Added an outdoor activity!',
         estimatedDuration: currentPlan.estimatedDuration ?? '~3h',
-        estimatedBudget: currentPlan.estimatedBudget ?? '£15-£25',
+        estimatedBudget: currentPlan.estimatedBudget ?? '\u00A315-\u00A325',
         stops: newStops,
       );
       return (
         response:
-            "Added a nature trail to your plan — great choice for outdoor lovers! 🌿",
+            "Added a nature trail to your plan. Great choice for outdoor lovers.",
         updatedPlan: updatedPlan,
       );
     }
@@ -306,7 +305,7 @@ class MockGuideService {
     return ChatMessageModel(
       id: _uuid.v4(),
       text:
-          "Welcome! You've just arrived. 🎉\nI've created a starter plan for you. Ask me to refine it anytime, or tell me the style you want and I'll adjust it.",
+          "Welcome! You've just arrived.\nI've created a starter plan for you. Ask me to refine it anytime, or tell me the style you want and I'll adjust it.",
       isUser: false,
       timestamp: DateTime.now(),
     );

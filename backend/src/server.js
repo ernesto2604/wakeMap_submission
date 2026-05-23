@@ -525,15 +525,16 @@ Use exactly this JSON schema:
 }
 
 Rules:
-- Support English and Spanish.
+- Support UK English only.
+- Use UK English for every generated string.
 - Normalize vague or natural phrases into geocoding-friendly place names.
-- Remove command words such as "when I arrive at", "wake me near", "pon una alarma para cuando llegue a".
-- If the user explicitly says the alarm is called/named/llamada X, use X for alarmName.
+- Remove command words such as "when I arrive at" and "wake me near".
+- If the user explicitly says the alarm is called/named X, use X for alarmName.
 - If no alarm name is given, use a concise name based on the destination.
 - If the user mentions a train station in a city, convert it to a searchable station name.
-- Examples of station normalization: "la estacion de tren en York, UK" -> "York Station, York, UK"; "estacion de tren de Leeds" -> "Leeds Station, Leeds, UK".
+- Examples of station normalisation: "York train station" -> "York Station, York, UK"; "Leeds railway station" -> "Leeds Station, Leeds, UK".
 - displayLocation should be clean and human-readable.
-- geocodingQuery must be concise and optimized for map search.
+- geocodingQuery must be concise and optimised for map search.
 - If no radius is mentioned, use 300.
 - Clamp radiusMeters between 100 and 1000.
 - confidence is "high" if destination and radius are clear.
@@ -543,12 +544,6 @@ Rules:
 - If everything is clear, missingFields must be [].
 
 Examples:
-Transcript: "Pon una alarma para cuando llegue a la estacion de tren en York, UK"
-JSON: {"alarmName":"York Station","displayLocation":"York Station, York, UK","geocodingQuery":"York Station, York, UK","radiusMeters":300,"confidence":"medium","missingFields":[]}
-
-Transcript: "Pon una alarma para la estacion de tren de Leeds con radio de 500 metros"
-JSON: {"alarmName":"Leeds Station","displayLocation":"Leeds Station, Leeds, UK","geocodingQuery":"Leeds train station, UK","radiusMeters":500,"confidence":"high","missingFields":[]}
-
 Transcript: "Create an alarm for York Station with a radius of 300 metres"
 JSON: {"alarmName":"York Station","displayLocation":"York Station, York, UK","geocodingQuery":"York Station, York, UK","radiusMeters":300,"confidence":"high","missingFields":[]}
 
@@ -568,6 +563,8 @@ function buildChatOnlyPrompt({ requestContext, userMessage }) {
 Respond with natural, conversational text only.
 Do NOT return JSON.
 Do NOT use markdown code fences.
+Always respond in UK English, regardless of the user's device locale or message language.
+Use British spelling, UK wording, pounds sterling for budgets, and metres for distances.
 
 Your goals:
 - Give practical and friendly suggestions.
@@ -589,6 +586,9 @@ Return ONLY valid JSON.
 No markdown.
 No backticks.
 No explanation.
+All string fields must be in UK English.
+Use British spelling, UK wording, pounds sterling for budgets, and metres for distances.
+Do not use any language other than UK English.
 
 Use this exact schema:
 {
@@ -610,6 +610,7 @@ Rules:
 - 2 to 4 stops
 - concise UI-friendly descriptions
 - plausible coordinates near the provided context
+- title, summary, estimated_duration, estimated_budget, stop names and stop descriptions must all be UK English
 
 Request type: initial_plan
 Request context JSON:
@@ -624,6 +625,9 @@ Return ONLY valid JSON.
 No markdown.
 No backticks.
 No explanation.
+All string fields must be in UK English.
+Use British spelling, UK wording, pounds sterling for budgets, and metres for distances.
+Do not use any language other than UK English.
 
 Use this exact schema:
 {
@@ -645,6 +649,7 @@ Rules:
 - 2 to 4 stops
 - concise UI-friendly descriptions
 - You may add, remove, or change stops as needed. You can also completely redo the plan if it improves the user experience.
+- title, summary, estimated_duration, estimated_budget, stop names and stop descriptions must all be UK English
 
 Request type: refine_plan
 Request context JSON:

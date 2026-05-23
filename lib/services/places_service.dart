@@ -62,7 +62,7 @@ class PlacesService {
       'format': 'jsonv2',
       'addressdetails': '1',
       'limit': '6',
-      'accept-language': 'es',
+      'accept-language': 'en-GB,en',
     });
 
     late final http.Response response;

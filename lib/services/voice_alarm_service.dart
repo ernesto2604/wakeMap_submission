@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ui';
-
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:speech_to_text/speech_recognition_error.dart';
@@ -185,7 +183,7 @@ class VoiceAlarmService {
   static const Duration defaultListenFor = Duration(seconds: 12);
   static const Duration defaultPauseFor = Duration(milliseconds: 2800);
   static const Duration _parseTimeout = Duration(seconds: 15);
-  static const List<String> _supportedLocales = ['en_GB', 'es_ES'];
+  static const List<String> _supportedLocales = ['en_GB'];
   static const Duration _finalResultGrace = Duration(milliseconds: 700);
   static const Duration _silentFinishGrace = Duration(milliseconds: 250);
   static const Duration _hardTimeoutPadding = Duration(milliseconds: 750);
@@ -338,17 +336,10 @@ class VoiceAlarmService {
         r'(?:with\s+)?(?:a\s+)?radius\s+of\s+(\d+)\s*(?:met(?:re|er)s?|m\b)?',
         caseSensitive: false,
       ),
-      RegExp(
-        r'(?:con\s+)?(?:un\s+)?radio\s+de\s+(\d+)\s*(?:metros?|m\b)?',
-        caseSensitive: false,
-      ),
       RegExp(r'(\d+)\s*(?:met(?:re|er)s?|m)\s+radius', caseSensitive: false),
-      RegExp(r'(\d+)\s*(?:metros?|m)\s+de\s+radio', caseSensitive: false),
       RegExp(r'\bat\s+(\d+)\s*(?:met(?:re|er)s?|m)\s*$', caseSensitive: false),
-      RegExp(r'\b(?:a|en)\s+(\d+)\s*(?:metros?|m)\s*$', caseSensitive: false),
       RegExp(r'within\s+(\d+)\s*(?:met(?:re|er)s?|m\b)?', caseSensitive: false),
-      RegExp(r'dentro\s+de\s+(\d+)\s*(?:metros?|m\b)?', caseSensitive: false),
-      RegExp(r'(\d+)\s*(?:met(?:re|er)s?|metros?|m)\b', caseSensitive: false),
+      RegExp(r'(\d+)\s*(?:met(?:re|er)s?|m)\b', caseSensitive: false),
     ];
 
     for (final pattern in radiusPatterns) {
@@ -369,18 +360,8 @@ class VoiceAlarmService {
     final namePatterns = <RegExp>[
       RegExp(r'\bcalled\s+(.+?)(?=\s+for\s+)', caseSensitive: false),
       RegExp(r'\bnamed\s+(.+?)(?=\s+for\s+)', caseSensitive: false),
-      RegExp(
-        r'\bllamad[ao]\s+(.+?)(?=\s+(?:para|en|a)\s+)',
-        caseSensitive: false,
-      ),
-      RegExp(
-        r'\bcon\s+nombre\s+(.+?)(?=\s+(?:para|en|a)\s+)',
-        caseSensitive: false,
-      ),
       RegExp(r'\bcalled\s+(.+)', caseSensitive: false),
       RegExp(r'\bnamed\s+(.+)', caseSensitive: false),
-      RegExp(r'\bllamad[ao]\s+(.+)', caseSensitive: false),
-      RegExp(r'\bcon\s+nombre\s+(.+)', caseSensitive: false),
     ];
 
     for (final pattern in namePatterns) {
@@ -406,31 +387,11 @@ class VoiceAlarmService {
         r'(?:arrive|reach|get)\s+(?:to|at|in)\s+(.+)',
         caseSensitive: false,
       ),
-      RegExp(
-        r'cuando\s+llegue\s+(?:a|al|a\s+la|a\s+el|en)\s+(.+)',
-        caseSensitive: false,
-      ),
-      RegExp(
-        r'cuando\s+llego\s+(?:a|al|a\s+la|a\s+el|en)\s+(.+)',
-        caseSensitive: false,
-      ),
-      RegExp(
-        r'al\s+llegar\s+(?:a|al|a\s+la|a\s+el|en)\s+(.+)',
-        caseSensitive: false,
-      ),
-      RegExp(r'cuando\s+est[eé]\s+en\s+(.+)', caseSensitive: false),
-      RegExp(
-        r'(?:llegue|llego|llegar)\s+(?:a|al|a\s+la|a\s+el|en)\s+(.+)',
-        caseSensitive: false,
-      ),
       RegExp(r'\bnear\s+(.+)', caseSensitive: false),
       RegExp(r'\bfor\s+(.+)', caseSensitive: false),
-      RegExp(r'\bpara\s+(.+)', caseSensitive: false),
       RegExp(r'\bto\s+(.+)', caseSensitive: false),
       RegExp(r'\bat\s+(.+)', caseSensitive: false),
       RegExp(r'\bin\s+(.+)', caseSensitive: false),
-      RegExp(r'\ben\s+(.+)', caseSensitive: false),
-      RegExp(r'\ba\s+(.+)', caseSensitive: false),
     ];
 
     for (final pattern in locationPatterns) {
@@ -451,17 +412,6 @@ class VoiceAlarmService {
             '',
           )
           .replaceFirst(RegExp(r'^(?:wake\s+me)\s*', caseSensitive: false), '')
-          .replaceFirst(
-            RegExp(
-              r'^(?:pon|ponme|crea|crear|activa)\s+(?:una\s+)?alarma\s*',
-              caseSensitive: false,
-            ),
-            '',
-          )
-          .replaceFirst(
-            RegExp(r'^(?:av[ií]same|despi[eé]rtame)\s*', caseSensitive: false),
-            '',
-          )
           .trim();
     }
 
@@ -473,8 +423,6 @@ class VoiceAlarmService {
     } else if (location.isEmpty) {
       alarmName = cleanedTranscript.toLowerCase().contains('home')
           ? 'Home Alarm'
-          : cleanedTranscript.toLowerCase().contains('casa')
-          ? 'Alarma Casa'
           : 'Voice Alarm';
       location = cleanedTranscript;
     } else {
@@ -526,12 +474,7 @@ class VoiceAlarmService {
       }
     }
 
-    final deviceLocale = PlatformDispatcher.instance.locale;
-    final preferredByDevice = deviceLocale.languageCode == 'es'
-        ? 'es_ES'
-        : 'en_GB';
-
-    final deviceMatch = findAvailable(preferredByDevice);
+    final deviceMatch = findAvailable('en_GB');
     if (deviceMatch != null) return deviceMatch;
 
     for (final localeId in _supportedLocales) {
@@ -540,7 +483,7 @@ class VoiceAlarmService {
     }
 
     throw const VoiceCaptureException(
-      'Voice input supports only UK English and Spain Spanish on this device.',
+      'Voice input supports only UK English on this device.',
     );
   }
 

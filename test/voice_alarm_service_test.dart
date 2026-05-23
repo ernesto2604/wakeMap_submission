@@ -25,23 +25,23 @@ void main() {
       expect(draft.radiusMeters, 400);
     });
 
-    test('parses Spain Spanish alarm command with radius', () {
+    test('parses UK English named alarm command with radius', () {
       final draft = service.parseAlarmDraft(
-        'Crea una alarma llamada Trabajo para la oficina con radio de 300 metros',
+        'Create an alarm named Office for York St John University at 300 metres',
       );
 
-      expect(draft.alarmName, 'Trabajo');
-      expect(draft.location, 'la oficina');
+      expect(draft.alarmName, 'Office');
+      expect(draft.location, 'York St John University');
       expect(draft.radiusMeters, 300);
     });
 
-    test('parses Spain Spanish arrival phrase', () {
+    test('parses UK English reach phrase', () {
       final draft = service.parseAlarmDraft(
-        'Avísame cuando llegue a casa dentro de 200 metros',
+        'Set an alarm when I reach home within 200 metres',
       );
 
-      expect(draft.alarmName, 'Casa');
-      expect(draft.location, 'casa');
+      expect(draft.alarmName, 'Home');
+      expect(draft.location, 'home');
       expect(draft.radiusMeters, 200);
     });
 

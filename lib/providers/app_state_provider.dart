@@ -589,7 +589,7 @@ class AppStateProvider extends ChangeNotifier {
       'update plan',
       'change plan',
       'modify plan',
-      'fewer tourist',
+      'fewer tourists',
       'move more things into day',
       'add more',
       'remove',
@@ -610,18 +610,6 @@ class AppStateProvider extends ChangeNotifier {
       'remove stop',
       'add a stop',
       'remove a stop',
-      'añadir',
-      'quitar',
-      'parada',
-      'modificar',
-      'eliminar',
-      'incluir',
-      'excluir',
-      'restaurante',
-      'museo',
-      'actividad',
-      'punto de interés',
-      'parada extra',
     ];
 
     const actionVerbs = [
@@ -633,12 +621,6 @@ class AppStateProvider extends ChangeNotifier {
       'eliminate',
       'include',
       'exclude',
-      'añadir',
-      'quitar',
-      'modificar',
-      'eliminar',
-      'incluir',
-      'excluir',
     ];
     final containsAction = actionVerbs.any((v) => msg.contains(v));
 
@@ -726,12 +708,12 @@ class AppStateProvider extends ChangeNotifier {
     MockPlanModel? currentPlan,
   }) {
     final now = DateTime.now();
-    final locale = PlatformDispatcher.instance.locale;
 
     final map = <String, dynamic>{
       'request_type': requestType,
       'mode': 'traveller',
-      'language': locale.languageCode,
+      'language': 'en-GB',
+      'language_variant': 'UK English',
       'current_date':
           '${now.year.toString().padLeft(4, '0')}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}',
       'current_time':
