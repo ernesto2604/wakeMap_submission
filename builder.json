@@ -1,0 +1,17 @@
+{
+  "project": "WakeMap_Submission",
+  "platform": "ios",
+  "github": {
+    "owner": "ernesto2604",
+    "repo": "wakeMap_submission"
+  },
+  "ios": {
+    "path": "ios"
+  },
+  "flutter": {
+    "version": "3.41.1",
+    "watch": {}
+  },
+  "reactNative": {},
+  "mobai": {}
+}
